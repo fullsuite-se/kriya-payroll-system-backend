@@ -1,0 +1,97 @@
+model EmployeeAttendance {
+    employee_attendance_id Int       @id @default(autoincrement())
+    company_id             String?   @db.Char(36)
+    employee_id            String    @db.Char(36)
+    date                   DateTime  @db.Date
+    time_in                DateTime? @db.Time(0)
+    time_out               DateTime? @db.Time(0)
+    hours_rendered         Decimal?  @db.Decimal(5, 2)
+    hours_worked           Decimal?  @db.Decimal(5, 2)
+    hours_logged           Decimal?  @db.Decimal(5, 2)
+    undertime              Decimal?  @db.Decimal(5, 2)
+    tardiness              Decimal?  @db.Decimal(5, 2)
+    night_differential     Decimal?  @db.Decimal(5, 2)
+    shift_type             ShiftType @default(REGULAR)
+    created_at             DateTime  @default(now()) @db.Timestamp(0)
+    updated_at             DateTime  @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+    company  Company? @relation(fields: [company_id], references: [company_id])
+
+    @@map("employee_attendances")
+}
+
+model EmployeeOvertime {
+    employee_overtime_id        String         @id @default(uuid()) @db.Char(36)
+    company_id                  String?        @db.Char(36)
+    employee_id                 String         @db.Char(36)
+    overtime_date               DateTime       @db.Date
+    overtime_type               OvertimeType
+    overtime_hours_rendered     Decimal        @db.Decimal(5, 2)
+    overtime_night_differential Decimal        @db.Decimal(5, 2)
+    overtime_status             OvertimeStatus
+    created_at                  DateTime       @default(now()) @db.Timestamp(0)
+    updated_at                  DateTime       @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+    company  Company? @relation(fields: [company_id], references: [company_id])
+
+    @@map("employee_overtimes")
+}
+
+model EmployeeAbsence {
+    employee_absence_id String        @id @default(uuid()) @db.Char(36)
+    employee_id         String        @db.Char(36)
+    company_id          String        @db.Char(36)
+    absence_date        DateTime      @db.Date
+    absence_type        String
+    absence_status      AbsenceStatus
+    is_paid             Boolean
+    created_at          DateTime      @default(now()) @db.Timestamp(0)
+    updated_at          DateTime      @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+    company  Company  @relation(fields: [company_id], references: [company_id])
+
+    @@map("employee_absences")
+}
+
+model EmployeeLeave {
+    employee_leave_id String      @id @default(uuid()) @db.Char(36)
+    employee_id       String      @db.Char(36)
+    company_id        String      @db.Char(36)
+    leave_date        DateTime    @db.Date
+    leave_type        String      @db.VarChar(100)
+    leave_status      LeaveStatus
+    is_paid           Boolean
+    created_at        DateTime    @default(now()) @db.Timestamp(0)
+    updated_at        DateTime    @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+    company  Company  @relation(fields: [company_id], references: [company_id])
+
+    @@map("employee_leaves")
+}
+
+model EmployeeRestday {
+    employee_restday_id String    @id @default(uuid()) @db.Char(36)
+    employee_id         String    @db.Char(36)
+    company_id          String?   @db.Char(36)
+    restday_date        DateTime  @db.Date
+    time_in             DateTime? @db.Time(0)
+    time_out            DateTime? @db.Time(0)
+    hours_rendered      Decimal?  @db.Decimal(5, 2)
+    hours_worked        Decimal?  @db.Decimal(5, 2)
+    hours_logged        Decimal?  @db.Decimal(5, 2)
+    undertime           Decimal?  @db.Decimal(5, 2)
+    tardiness           Decimal?  @db.Decimal(5, 2)
+    night_differential  Decimal?  @db.Decimal(5, 2)
+    shift_type          ShiftType @default(REGULAR)
+    created_at          DateTime  @default(now()) @db.Timestamp(0)
+    updated_at          DateTime  @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+    company  Company? @relation(fields: [company_id], references: [company_id])
+
+    @@map("employee_restdays")
+}

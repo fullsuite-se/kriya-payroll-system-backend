@@ -1,0 +1,128 @@
+model Payrun {
+    payrun_id         String       @id @default(uuid()) @db.Char(36)
+    company_id        String       @db.Char(36)
+    payrun_type       PayrunType   @default(REGULAR)
+    payrun_start_date DateTime     @db.Date
+    payrun_end_date   DateTime     @db.Date
+    payment_date      DateTime     @db.Date
+    payrun_title      String
+    generated_by      String       @db.Char(36)
+    status            PayrunStatus @default(DRAFT)
+    created_at        DateTime     @default(now()) @db.Timestamp(0)
+    updated_at        DateTime     @default(now()) @db.Timestamp(0)
+
+    company              Company              @relation(fields: [company_id], references: [company_id])
+    payrun_notifications PayrunNotification[]
+    payslip_drafts       PayslipDraft[]
+    payslips             Payslip[]
+    payrun_logs          PayrunLog[]
+    selected_payitems    SelectedPayitem[]
+
+    @@map("payruns")
+}
+
+model PayrunLog {
+    payrun_log_id String   @id @default(uuid()) @db.Char(36)
+    payrun_id     String   @db.Char(36)
+    action        String
+    performed_by  String   @db.Char(36)
+    created_at    DateTime @default(now()) @db.Timestamp(0)
+
+    payrun Payrun @relation(fields: [payrun_id], references: [payrun_id])
+
+    @@map("payrun_logs")
+}
+
+model PayrunNotification {
+    payrun_notification_id String   @id @default(uuid()) @db.Char(36)
+    company_id             String   @db.Char(36)
+    payrun_id              String   @db.Char(36)
+    action                 String
+    user_id                String   @db.VarChar(36)
+    seen                   Boolean  @default(false)
+    created_at             DateTime @default(now()) @db.Timestamp(0)
+    updated_at             DateTime @default(now()) @db.Timestamp(0)
+
+    company Company @relation(fields: [company_id], references: [company_id])
+    payrun  Payrun  @relation(fields: [payrun_id], references: [payrun_id])
+
+    @@map("payrun_notifications")
+}
+
+model Payslip {
+    payslip_id       String         @id @default(uuid()) @db.Char(36)
+    payrun_id        String         @db.Char(36)
+    company_id       String         @db.Char(36)
+    employee_id      String         @db.Char(36)
+    total_earnings   Decimal        @default(0.00) @db.Decimal(16, 2)
+    total_deductions Decimal        @default(0.00) @db.Decimal(16, 2)
+    total_taxes      Decimal        @default(0.00) @db.Decimal(16, 2)
+    net_salary       Decimal        @default(0.00) @db.Decimal(16, 2)
+    status           PayslipStatus?
+    notes            String?        @db.Text
+    created_at       DateTime       @default(now()) @db.Timestamp(0)
+    updated_at       DateTime       @default(now()) @db.Timestamp(0)
+
+    payrun           Payrun           @relation(fields: [payrun_id], references: [payrun_id])
+    company          Company          @relation(fields: [company_id], references: [company_id])
+    employee         Employee         @relation(fields: [employee_id], references: [employee_id])
+    payslip_payables PayslipPayable[]
+
+    @@map("payslips")
+}
+
+model PayslipPayable {
+    payslip_payable_id String   @id @default(uuid()) @db.Char(36)
+    payslip_id         String   @db.Char(36)
+    employee_id        String   @db.Char(36)
+    payitem_id         String   @db.Char(36)
+    category           String
+    amount             Decimal  @db.Decimal(16, 2)
+    created_at         DateTime @default(now()) @db.Timestamp(0)
+    updated_at         DateTime @default(now()) @db.Timestamp(0)
+
+    payslip  Payslip  @relation(fields: [payslip_id], references: [payslip_id])
+    payitem  Payitem  @relation(fields: [payitem_id], references: [payitem_id])
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+
+    @@map("payslip_payables")
+}
+
+model PayslipDraft {
+    payslip_draft_id String         @id @default(uuid()) @db.Char(36)
+    payrun_id        String         @db.Char(36)
+    company_id       String         @db.Char(36)
+    employee_id      String         @db.Char(36)
+    total_earnings   Decimal        @default(0.00) @db.Decimal(16, 2)
+    total_deductions Decimal        @default(0.00) @db.Decimal(16, 2)
+    total_taxes      Decimal        @default(0.00) @db.Decimal(16, 2)
+    net_salary       Decimal        @default(0.00) @db.Decimal(16, 2)
+    status           PayslipStatus?
+    notes            String?        @db.Text
+    created_at       DateTime       @default(now()) @db.Timestamp(0)
+    updated_at       DateTime       @default(now()) @db.Timestamp(0)
+
+    payrun                 Payrun                @relation(fields: [payrun_id], references: [payrun_id])
+    company                Company               @relation(fields: [company_id], references: [company_id])
+    employee               Employee              @relation(fields: [employee_id], references: [employee_id])
+    payslip_payable_drafts PayslipPayableDraft[]
+
+    @@map("payslip_drafts")
+}
+
+model PayslipPayableDraft {
+    payslip_payable_draft_id String   @id @default(uuid()) @db.Char(36)
+    payslip_id               String   @db.Char(36)
+    employee_id              String   @db.Char(36)
+    category                 String
+    payitem_id               String   @db.Char(36)
+    amount                   Decimal  @db.Decimal(16, 2)
+    created_at               DateTime @default(now()) @db.Timestamp(0)
+    updated_at               DateTime @default(now()) @db.Timestamp(0)
+
+    payslip_draft PayslipDraft @relation(fields: [payslip_id], references: [payslip_draft_id])
+    payitem       Payitem      @relation(fields: [payitem_id], references: [payitem_id])
+    employee      Employee     @relation(fields: [employee_id], references: [employee_id])
+
+    @@map("payslip_payable_drafts")
+}

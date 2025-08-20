@@ -1,0 +1,128 @@
+enum BusinessType {
+    SOLE_PROPRIETORSHIP
+    PARTNERSHIP
+    LIMITED_LIABILITY_COMPANY
+    CORPORATION
+    COOPERATIVE
+    NON_PROFIT_ORGANIZATION
+}
+
+enum AbsenceStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+}
+
+enum ContributionName {
+    SSS
+    PHIC
+    HDMF
+    TIN
+}
+
+enum SalaryChangeType {
+    STARTING
+    INCREASE
+    CORRECTION
+}
+
+enum ShiftType {
+    REGULAR
+    SLIDE
+}
+
+enum OvertimeType {
+    REGULAR_DAY
+    REST_DAY
+    SPECIAL_HOLIDAY
+    REGULAR_HOLIDAY
+    REST_DAY_SPECIAL_HOLIDAY
+    REST_DAY_REGULAR_HOLIDAY
+}
+
+enum OvertimeStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+}
+
+enum LeaveStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+}
+
+enum PayitemCategory {
+    DEDUCTIONS
+    EARNINGS
+    TAXES
+}
+
+enum PayitemType {
+    FIXED
+    MANUAL
+    CALCULATED
+}
+
+enum PayitemGroup {
+    Taxable
+    NonTaxable
+    PreTaxDeduction
+    Taxes
+    PostTaxDeduction
+    PostTaxAddition
+    InfoOnly
+}
+
+enum Payitem1601cTag {
+    TAXABLE
+    NON_TAXABLE
+    EXEMPT
+}
+
+enum PayslipStatus {
+    DONE
+    FOR_REVIEW
+    QUESTIONABLE
+}
+
+enum PayrunType {
+    REGULAR
+    LAST_PAY
+    SPECIAL
+}
+
+enum PayrunStatus {
+    DRAFT
+    FOR_APPROVAL
+    APPROVED
+    REJECTED
+}
+
+enum HolidayType {
+    REGULAR
+    SPECIAL
+    CUSTOM
+}
+
+enum TaxFrequency {
+    DAILY
+    WEEKLY
+    SEMI_MONTHLY
+    MONTHLY
+}
+
+enum HdmfCoverage {
+    HALF
+    FULL
+}
+
+enum SssCoverage {
+    HALF
+    FULL
+}
+
+enum PhicCoverage {
+    HALF
+    FULL
+}

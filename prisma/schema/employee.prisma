@@ -1,0 +1,81 @@
+model Employee {
+    employee_id        String   @id @default(uuid()) @db.Char(36)
+    company_id         String   @db.Char(36)
+    first_name         String   @db.VarChar(50)
+    middle_name        String   @db.VarChar(50)
+    last_name          String   @db.VarChar(50)
+    personal_email     String   @db.VarChar(100)
+    work_email         String   @db.VarChar(50)
+    job_title          String   @db.VarChar(50)
+    department         String   @db.VarChar(50)
+    employement_status Boolean  @default(true)
+    created_at         DateTime @default(now()) @db.Timestamp(0)
+    updated_at         DateTime @default(now()) @db.Timestamp(0)
+
+    company                Company                @relation(fields: [company_id], references: [company_id])
+    employee_infos         EmployeeInfo[]
+    employee_absences      EmployeeAbsence[]
+    employee_designations  EmployeeDesignation[]
+    employee_contributions EmployeeContribution[]
+    employee_salaries      EmployeeSalary[]
+    employee_attendances   EmployeeAttendance[]
+    employee_restdays      EmployeeRestday[]
+    employee_overtimes     EmployeeOvertime[]
+    employee_leaves        EmployeeLeave[]
+    payslip_drafts         PayslipDraft[]
+    payslips               Payslip[]
+    recurring_pays         RecurringPay[]
+    PayslipPayableDraft    PayslipPayableDraft[]
+    PayslipPayable         PayslipPayable[]
+
+    @@map("employees")
+}
+
+model EmployeeInfo {
+    employee_info_id  String    @id @default(uuid()) @db.Char(36)
+    employee_id       String    @db.Char(36)
+    permanent_address String    @db.Text
+    current_address   String    @db.Text
+    civil_status      String    @db.VarChar(50)
+    date_hired        DateTime  @db.Date
+    date_end          DateTime? @db.Date
+    sex               String    @db.VarChar(50)
+    created_at        DateTime  @default(now()) @db.Timestamp(0)
+    updated_at        DateTime  @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+
+    @@map("employee_infos")
+}
+
+model EmployeeContribution {
+    employee_contribution_id    String           @id @default(uuid()) @db.Char(36)
+    employee_id                 String           @db.Char(36)
+    company_id                  String           @db.Char(36)
+    contribution_name           ContributionName
+    contribution_account_number String           @db.VarChar(255)
+    created_at                  DateTime         @default(now()) @db.Timestamp(0)
+    updated_at                  DateTime         @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+    company  Company  @relation(fields: [company_id], references: [company_id])
+
+    @@map("employee_contributions")
+}
+
+model EmployeeSalary {
+    employee_salary_id String            @id @default(uuid()) @db.Char(36)
+    company_id         String            @db.Char(36)
+    employee_id        String            @db.Char(36)
+    base_pay           Decimal?          @db.Decimal(10, 2)
+    date               DateTime?         @db.Date
+    change_type        SalaryChangeType?
+    is_active          Boolean
+    created_at         DateTime          @default(now()) @db.Timestamp(0)
+    updated_at         DateTime          @default(now()) @db.Timestamp(0)
+
+    employee Employee @relation(fields: [employee_id], references: [employee_id])
+    company  Company  @relation(fields: [company_id], references: [company_id])
+
+    @@map("employee_salaries")
+}

@@ -1,0 +1,46 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  user_id       String   @id @default(uuid()) @db.Char(36)
+  user_email    String   @db.Char(36)
+  user_password String   @db.Text
+  created_at    DateTime @default(now()) @db.Timestamp(0)
+  updated_at    DateTime @default(now()) @db.Timestamp(0)
+
+  managements Management[]
+
+  @@map("users")
+}
+
+model Management {
+  management_id String   @id @default(uuid()) @db.Char(36)
+  user_id       String   @db.Char(36)
+  company_id    String   @db.Char(36)
+  created_at    DateTime @default(now()) @db.Timestamp(0)
+  updated_at    DateTime @default(now()) @db.Timestamp(0)
+
+  user    User    @relation(fields: [user_id], references: [user_id])
+  company Company @relation(fields: [company_id], references: [company_id])
+
+  @@map("managements")
+}
+
+model EmployeeDesignation {
+  employee_designation_id String   @id @default(uuid()) @db.Char(36)
+  employee_id             String   @db.Char(36)
+  company_id              String   @db.Char(36)
+  created_at              DateTime @default(now()) @db.Timestamp(0)
+  updated_at              DateTime @default(now()) @db.Timestamp(0)
+
+  employee Employee @relation(fields: [employee_id], references: [employee_id])
+  company  Company  @relation(fields: [company_id], references: [company_id])
+
+  @@map("employee_designations")
+}
