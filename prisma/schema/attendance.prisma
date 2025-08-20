@@ -1,8 +1,8 @@
 model EmployeeAttendance {
-    employee_attendance_id Int       @id @default(autoincrement())
+    employee_attendance_id String    @id @default(uuid()) @db.Char(36)
     company_id             String?   @db.Char(36)
     employee_id            String    @db.Char(36)
-    date                   DateTime  @db.Date
+    attendance_date        DateTime  @db.Date
     time_in                DateTime? @db.Time(0)
     time_out               DateTime? @db.Time(0)
     hours_rendered         Decimal?  @db.Decimal(5, 2)
@@ -46,7 +46,7 @@ model EmployeeAbsence {
     absence_date        DateTime      @db.Date
     absence_type        String
     absence_status      AbsenceStatus
-    is_paid             Boolean
+    is_paid             Boolean       @db.TinyInt
     created_at          DateTime      @default(now()) @db.Timestamp(0)
     updated_at          DateTime      @default(now()) @db.Timestamp(0)
 
