@@ -2,8 +2,8 @@ import express from "express";
 import path from "path";
 import cors, { CorsOptions } from "cors";
 import env from "./config/env";
+import routes from "./routes";
 const app = express();
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,10 +18,13 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use('/api/v1', routes);
 
-app.get('/ping', (_req, res) => {
-  console.log('someone pinged here');
-  res.send('pong');
+
+
+app.get('/', (_req, res) => {
+  return res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
+
 
 export default app;
