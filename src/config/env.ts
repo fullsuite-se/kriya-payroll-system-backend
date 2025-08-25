@@ -11,6 +11,7 @@ const env = {
     ID_LENGTH: process.env.ID_LENGTH,
     HRIS_BACKEND_URL: process.env.HRIS_BACKEND_URL,
     SHARED_API_KEY: process.env.SHARED_API_KEY,
+    JWT_SECRET: process.env.JWT_SECRET,
 };
 
 export default env;
