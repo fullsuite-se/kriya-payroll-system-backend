@@ -28,7 +28,8 @@ export const addUserToManage = async (req: Request, res: Response) => {
 };
 
 export const getCompaniesUserHasAccess = async (req: Request, res: Response) => {
-    const user_id = req.params.user_id as string;
+    // const user_id = req.params.user_id as string;
+    const user_id = req.user?.system_user_id;
 
     if (!user_id) return res.status(500).json({
         message: "Failed to fetch companies", error: " The client sent a malformed or incomplete request"
