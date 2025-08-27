@@ -14,9 +14,9 @@ export const companySchema = z.object({
 
 export const companyInfoSchema = z.object({
     company_id: z.string().trim(),
-    company_address: z.string().trim().min(5).max(200),
+    company_address: z.string().trim().max(200),
     company_phone: z.string().trim(),
-    company_tin: z.string().trim().min(5).max(20),
+    company_tin: z.string().trim().max(20),
     business_type: z.enum([
         "SOLE_PROPRIETORSHIP",
         "PARTNERSHIP",
