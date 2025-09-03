@@ -1,6 +1,7 @@
 import express from "express";
 import * as companyController from "../controllers/company.controller";
 import * as managementController from "../controllers/management.controller";
+import * as configurationController from "../controllers/configuration.controller";
 import { authenticateJWTToken } from "../middlewares/auth.middleware";
 const router = express.Router();
 
@@ -13,6 +14,10 @@ router.get("/:company_id", companyController.getCompany);
 router.post("/", companyController.addCompany);
 router.patch("/:company_id", companyController.updateCompany);
 router.patch("/:company_id/info", companyController.updateCompanyInfo);
+
+//configuration
+router.post("/:company_id/configuration/working-days", configurationController.addWorkingDays);
+router.post("/:company_id/configuration/payroll-frequency", configurationController.addPayrollFrequency);
 
 router.post("/:company_id/access", managementController.addUserToManage); //add users to manage the company
 // router.get("/access/:user_id", managementController.getCompaniesUserHasAccess); //fetch company a user has access
