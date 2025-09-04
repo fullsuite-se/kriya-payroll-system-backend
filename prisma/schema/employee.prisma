@@ -2,13 +2,13 @@ model Employee {
     employee_id        String   @id @default(uuid()) @db.Char(36)
     company_id         String   @db.Char(36)
     first_name         String   @db.VarChar(100)
-    middle_name        String   @db.VarChar(100)
+    middle_name        String?  @db.VarChar(100)
     last_name          String   @db.VarChar(100)
     personal_email     String   @db.VarChar(100)
     work_email         String   @db.VarChar(100)
     job_title          String   @db.VarChar(100)
     department         String   @db.VarChar(100)
-    employement_status Boolean  @db.TinyInt @default(true)
+    employement_status Boolean  @default(true) @db.TinyInt
     created_at         DateTime @default(now()) @db.Timestamp(0)
     updated_at         DateTime @default(now()) @db.Timestamp(0)
 
@@ -33,7 +33,7 @@ model Employee {
 
 model EmployeeInfo {
     employee_info_id  String    @id @default(uuid()) @db.Char(36)
-    employee_id       String    @db.Char(36) @unique
+    employee_id       String    @unique @db.Char(36)
     permanent_address String    @db.Text
     current_address   String    @db.Text
     civil_status      String    @db.VarChar(50)
