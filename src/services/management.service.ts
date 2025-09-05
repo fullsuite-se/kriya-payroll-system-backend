@@ -25,13 +25,31 @@ export const createUserToManageCompany = async (company_id: string, user_ids_str
 };
 
 export const findCompaniesUserHasAccess = async (user_id: string) => {
-    return await prisma.company.findMany({
+    const companiesRaw = await prisma.company.findMany({
         where: {
             managements: {
                 some: { user_id },
             }
+        },
+        include: {
+            companies_info: true
         }
     });
+
+    const companies = companiesRaw.map(c => ({
+        company_id: c.company_id,
+        company_name: c.company_name,
+        company_trade_name: c.company_trade_name,
+        company_email: c.company_email,
+        company_logo: c.company_logo,
+
+        company_address: c.companies_info?.company_address,
+        company_phone: c.companies_info?.company_phone,
+        company_tin: c.companies_info?.company_tin,
+        business_type: c.companies_info?.business_type,
+    }));
+
+    return companies;
 };
 
 
