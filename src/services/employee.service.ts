@@ -22,53 +22,58 @@ export const findEmployeebyEmployeeId = async (employee_id: string) => {
     });
 };
 
-export const findEmployeesByCompanyId = async (company_id: string): Promise<Employee[]> => {
-    return await prisma.employee.findMany({
-        where: { company_id }
+export const findEmployeesByCompanyId = async (company_id: string) => {
+    const employees = await prisma.employee.findMany({
+        where: { company_id },
+        select: {
+            employee_id: true,
+            first_name: true,
+            last_name: true,
+            // personal_email: true,
+            work_email: true,
+            job_title: true,
+            // department: true,
+            employement_status: true,
+            employee_salaries: {
+                where: { is_active: true },
+                select: {
+                    base_pay: true,
+                    date: true,
+                    change_type: true,
+                    is_active: true,
+                },
+                take: 1,
+            }
+        }
     });
+
+    return employees.map(e => ({
+        employee_id: e.employee_id,
+        first_name: e.first_name,
+        last_name: e.last_name,
+        // personal_email: e.personal_email,
+        work_email: e.work_email,
+        job_title: e.job_title,
+        // department: e.department,
+        employement_status: e.employement_status,
+        base_pay: e.employee_salaries[0]?.base_pay ?? null,
+    }));
 };
 
 export const findEmployeesByCompanyIdQuery = async (company_id: string, query: string) => {
     return await prisma.employee.findMany({
         where: {
+            company_id,
             OR: [
-                {
-                    company_id: {
-                        equals: company_id,
-                    }
-                },
-                {
-                    first_name: {
-                        contains: query,
-                    }
-                },
-                {
-                    last_name: {
-                        contains: query,
-                    }
-                },
-                {
-                    personal_email: {
-                        contains: query,
-                    }
-                },
-                {
-                    work_email: {
-                        contains: query,
-                    }
-                },
-                {
-                    job_title: {
-                        contains: query,
-                    }
-                },
-                {
-                    department: {
-                        contains: query,
-                    }
-                },
+                { first_name: { contains: query } },
+                { last_name: { contains: query } },
+                { personal_email: { contains: query } },
+                { work_email: { contains: query } },
+                { job_title: { contains: query } },
+                { department: { contains: query } },
             ]
         }
+
     });
 };
 
