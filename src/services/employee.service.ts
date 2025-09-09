@@ -146,3 +146,45 @@ export const updateOneEmployeeInfo = async (employee_id: string, employeeInfoDat
         }
     });
 };
+
+export const addNewEmployeeSalary = async (
+    company_id: string,
+    employee_id: string,
+    employeeSalaryData: EmployeeSalaryDto
+) => {
+    const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
+
+    return await prisma.$transaction(async (tx) => {
+        // 1. Find the current active salary for this employee
+        const activeSalary = await tx.employeeSalary.findFirst({
+            where: {
+                company_id,
+                employee_id,
+                is_active: true,
+            },
+        });
+
+        // 2. If exists, mark it inactive
+        if (activeSalary) {
+            await tx.employeeSalary.update({
+                where: { employee_salary_id: activeSalary.employee_salary_id },
+                data: { is_active: false, updated_at },
+            });
+        }
+
+        // 3. Add the new salary record as active
+        const newSalary = await tx.employeeSalary.create({
+            data: {
+                employee_salary_id: generateUUIV4(),
+                company_id,
+                // employee_id,
+                ...employeeSalaryData,
+                is_active: true, // enforce new one is active
+                created_at,
+                updated_at,
+            },
+        });
+
+        return newSalary;
+    });
+};

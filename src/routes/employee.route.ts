@@ -13,6 +13,8 @@ router.post('/companies/:company_id', employeeController.addEmployee);
 router.patch('/:employee_id', employeeController.updateEmployee);
 router.patch('/:employee_id/info', employeeController.updateEmployeeInfo);
 
+//salary
+router.post('/:employee_id/companies/:company_id/salaries', employeeController.addEmployeeSalary);
 
 
 export default router;

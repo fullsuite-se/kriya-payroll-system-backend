@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getErrorMessage } from "../utils/errors.utility";
-import { addOneEmployee, findAllEmployees, findEmployeebyEmployeeId, findEmployeesByCompanyId, findEmployeesByCompanyIdQuery, updateOneEmployee, updateOneEmployeeInfo } from "../services/employee.service";
+import { addNewEmployeeSalary, addOneEmployee, findAllEmployees, findEmployeebyEmployeeId, findEmployeesByCompanyId, findEmployeesByCompanyIdQuery, updateOneEmployee, updateOneEmployeeInfo } from "../services/employee.service";
 import { employeeInfoSchema, employeeSalarySchema, employeeSchema } from "../dtos/employee.dto";
 
 interface QueryParams {
@@ -113,4 +113,26 @@ export const updateEmployeeInfo = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json({ message: "Failed to add employees.", error: getErrorMessage(error) });
     }
+};
+
+//this adds new salary to the employee
+//workflow: find emp salary -> active status = 0 -> add salary with active=1
+export const addEmployeeSalary = async (req: Request, res: Response) => {
+    const { employee_id, company_id } = req.params as RouteParams;
+
+    if (!employee_id || !company_id) return res.status(500).json({ message: "Failed adding salary.", error: "Missing company id or employee id" });
+
+
+    const parsedEmployeeSalary = employeeSalarySchema.safeParse(req.body);
+
+    if (!parsedEmployeeSalary.success) return res.status(400).json({ message: "Failed adding employees", error: parsedEmployeeSalary.error?.issues });
+
+    try {
+        const salary = await addNewEmployeeSalary(company_id, employee_id, parsedEmployeeSalary.data);
+        return res.status(201).json({ message: "Salary addedd successfully", salary });
+
+    } catch (error) {
+        return res.status(500).json({ message: "Failed adding salary.", error: getErrorMessage(error) });
+    }
+
 };
