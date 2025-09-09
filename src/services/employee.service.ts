@@ -188,3 +188,10 @@ export const addNewEmployeeSalary = async (
         return newSalary;
     });
 };
+
+export const updateStatus = async (employee_id: string, employement_status: boolean) => {
+    return await prisma.employee.update({
+        where: { employee_id },
+        data: { employement_status, updated_at: getIsoUTCNow() }
+    });
+};

@@ -15,6 +15,7 @@ router.patch('/:employee_id/info', employeeController.updateEmployeeInfo);
 
 //salary
 router.post('/:employee_id/companies/:company_id/salaries', employeeController.addEmployeeSalary);
+router.patch('/:employee_id/companies/:company_id/employment-status', employeeController.updateEmploymentStatus);
 
 
 export default router;

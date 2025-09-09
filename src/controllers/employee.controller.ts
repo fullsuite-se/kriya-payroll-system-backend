@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getErrorMessage } from "../utils/errors.utility";
-import { addNewEmployeeSalary, addOneEmployee, findAllEmployees, findEmployeebyEmployeeId, findEmployeesByCompanyId, findEmployeesByCompanyIdQuery, updateOneEmployee, updateOneEmployeeInfo } from "../services/employee.service";
+import { addNewEmployeeSalary, addOneEmployee, findAllEmployees, findEmployeebyEmployeeId, findEmployeesByCompanyId, findEmployeesByCompanyIdQuery, updateOneEmployee, updateOneEmployeeInfo, updateStatus } from "../services/employee.service";
 import { employeeInfoSchema, employeeSalarySchema, employeeSchema } from "../dtos/employee.dto";
 
 interface QueryParams {
@@ -135,4 +135,18 @@ export const addEmployeeSalary = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Failed adding salary.", error: getErrorMessage(error) });
     }
 
+};
+
+export const updateEmploymentStatus = async (req: Request, res: Response) => {
+    const { employee_id } = req.params as RouteParams;
+    const { employement_status } = req.body as { employement_status: boolean };
+    if (!employee_id) return res.status(500).json({ message: "Failed update status.", error: "Missing employee id" });
+
+
+    try {
+        const status = await updateStatus(employee_id, employement_status);
+        return res.status(201).json({ message: "Employment status updated successfully", status });
+    } catch (error) {
+        return res.status(500).json({ message: "Failed update employment status.", error: getErrorMessage(error) });
+    }
 };
