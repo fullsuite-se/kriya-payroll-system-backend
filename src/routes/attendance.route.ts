@@ -13,6 +13,7 @@ const router = express.Router();
 router.get('/companies/:company_id/attendances', attendanceController.getAttendances);
 router.post('/companies/:company_id/attendances', attendanceController.addAttendance); //add one only
 router.patch('/companies/:company_id/attendances/:employee_attendance_id', attendanceController.updateAttendance);
+router.delete('/companies/:company_id/attendances/:employee_attendance_id', attendanceController.deleteAttendance);
 
 export default router;
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getErrorMessage } from "../utils/errors.utility";
-import { addOneAttendance, findAllAttendances, updateOneAttendance } from "../services/attendance.service";
+import { addOneAttendance, deleteOneAttendance, findAllAttendances, updateOneAttendance } from "../services/attendance.service";
 import { employeeAttendanceSchema } from "../dtos/attendance.dto";
 
 interface QueryParams {
@@ -58,5 +58,20 @@ export const updateAttendance = async (req: Request, res: Response) => {
         return res.status(201).json({ message: "Attendance updated successfully", attendance });
     } catch (error) {
         return res.status(500).json({ message: "Failed to update attendance", error: getErrorMessage(error) });
+    }
+};
+
+export const deleteAttendance = async (req: Request, res: Response) => {
+    const { employee_attendance_id } = req.params as RouteParams;
+
+    if (!employee_attendance_id) return res.status(400).json({ message: "Failed to update attendance", error: "Missing employee_attendance_id" });
+
+    try {
+        const deletedAttendance = await deleteOneAttendance(employee_attendance_id);
+        return res.status(200).json({
+            message: "Attendance deleted successfully",
+        });
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to delete attendance", error: getErrorMessage(error) });
     }
 };

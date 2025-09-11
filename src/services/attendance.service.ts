@@ -1,5 +1,5 @@
 import prisma from "../config/prisma";
-import { Prisma } from "@prisma/client";
+import { EmployeeAttendance, Prisma } from "@prisma/client";
 import { EmployeeAttendanceDto } from "../dtos/attendance.dto";
 import { getCreatedUpdatedIsoUtcNow, getIsoUTCNow } from "../utils/date.utility";
 import { generateUUIV4 } from "../utils/ids.utility";
@@ -58,5 +58,13 @@ export const updateOneAttendance = async (employee_attendance_id: string, employ
             ...employeeAttendanceData,
             updated_at: getIsoUTCNow(),
         }
+    });
+};
+
+export const deleteOneAttendance = async (
+    employee_attendance_id: string
+): Promise<EmployeeAttendance> => {
+    return await prisma.employeeAttendance.delete({
+        where: { employee_attendance_id },
     });
 };

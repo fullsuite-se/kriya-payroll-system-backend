@@ -10,7 +10,7 @@ export const employeeAttendanceSchema = z.object({
     time_out: z.coerce.date(),
     hours_rendered: z.number(),
     hours_worked: z.number(),
-    hours_logged: z.number(),
+    hours_logged: z.number().nullable(),
     undertime: z.number().nullable(),
     tardiness: z.number().nullable(),
     night_differential: z.number().nullable(),
