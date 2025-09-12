@@ -34,7 +34,7 @@ export const employeeOvertimeSchema = z
       "REST_DAY_SPECIAL_HOLIDAY",
       "REST_DAY_REGULAR_HOLIDAY",
     ]),
-    overtime_hours_rendered: z.number().nullable(),
+    overtime_hours_rendered: z.number(),
     overtime_night_differential: z.number(),
     overtime_status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]),
   })
