@@ -7,7 +7,9 @@
     "tsc": "tsc",
     "lint": "eslint .",
     "dev": "ts-node-dev src/index.ts",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
+    "build": "prisma generate && tsc",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",

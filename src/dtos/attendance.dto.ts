@@ -33,7 +33,7 @@ export const employeeOvertimeSchema = z.object({
             'REST_DAY_REGULAR_HOLIDAY',
         ]
     ),
-    overtime_hours_rendered: z.number(),
+    overtime_hours_rendered: z.number().nullable(),
     overtime_night_differential: z.number(),
     overtime_status: z.enum(['PENDING', 'ACCEPTED', 'REJECTED']),
 }).strip();
@@ -70,9 +70,9 @@ export const employeeRestdaySchema = z.object({
     time_out: z.coerce.date(),
     hours_rendered: z.number(),
     hours_worked: z.number(),
-    hours_logged: z.number(),
-    undertime: z.number(),
-    tardiness: z.number(),
+    hours_logged: z.number().nullable(),
+    undertime: z.number().nullable(),
+    tardiness: z.number().nullable(),
     night_differential: z.number().nullable(),
     shift_type: z.enum(['REGULAR', 'SLIDE']).default('REGULAR'),
 }).strip();
