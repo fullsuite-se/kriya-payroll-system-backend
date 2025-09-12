@@ -53,4 +53,3 @@ router.patch('/companies/:company_id/restdays/:employee_restday_id', restdayCont
 router.delete('/companies/:company_id/restdays/:employee_restday_id', restdayController.deleteOneRestday);
 
 export default router;
-

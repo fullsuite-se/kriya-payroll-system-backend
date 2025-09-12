@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { addOvertime, deleteOvertime, findAllOvertimes, updateOvertime } from "../services/overtime.service";
 import { getErrorMessage } from "../utils/errors.utility";
 import { employeeOvertimeSchema } from "../dtos/attendance.dto";
-// TODO overtime and restday
-// reference attendace
 
 interface QueryParams {
     employee_id?: string,
@@ -82,4 +80,3 @@ export const deleteOneOvertime = async(req: Request, res: Response) => {
         }
    
 };
-
