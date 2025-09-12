@@ -1,5 +1,5 @@
 import prisma from "../config/prisma";
-import {EmployeeOvertime, Prisma } from "@prisma/client";
+import { EmployeeOvertime, Prisma } from "@prisma/client";
 import { EmployeeOvertimeDto } from "../dtos/attendance.dto";
 import { getCreatedUpdatedIsoUtcNow, getIsoUTCNow } from "../utils/date.utility";
 import { generateUUIV4 } from "../utils/ids.utility";
