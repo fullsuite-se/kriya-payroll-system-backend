@@ -30,10 +30,10 @@ export const getLeaves = async (req: Request, res: Response) => {
     });
 
   try {
-    const leave = await findAllLeave(company_id, employee_id, from, to);
+    const leaves = await findAllLeave(company_id, employee_id, from, to);
     return res
       .status(200)
-      .json({ message: "Leave successfully fetched", leave });
+      .json({ message: "Leave successfully fetched", leaves });
   } catch (error) {
     return res.status(400).json({
       message: "Failed to fetch leave",
