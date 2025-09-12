@@ -1,7 +1,8 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // EmployeeAttendance Schema
-export const employeeAttendanceSchema = z.object({
+export const employeeAttendanceSchema = z
+  .object({
     // employee_attendance_id: z.string(),
     // company_id: z.string(),
     employee_id: z.string(),
@@ -14,54 +15,60 @@ export const employeeAttendanceSchema = z.object({
     undertime: z.number().nullable(),
     tardiness: z.number().nullable(),
     night_differential: z.number().nullable(),
-    shift_type: z.enum(['REGULAR', 'SLIDE']).default('REGULAR'),
-}).strip();
+    shift_type: z.enum(["REGULAR", "SLIDE"]).default("REGULAR"),
+  })
+  .strip();
 
 // EmployeeOvertime Schema
-export const employeeOvertimeSchema = z.object({
+export const employeeOvertimeSchema = z
+  .object({
     // employee_overtime_id: z.string(),
     // company_id: z.string(),
     employee_id: z.string(),
     overtime_date: z.coerce.date(),
-    overtime_type: z.enum(
-        [
-            'REGULAR_DAY',
-            'REST_DAY',
-            'SPECIAL_HOLIDAY',
-            'REGULAR_HOLIDAY',
-            'REST_DAY_SPECIAL_HOLIDAY',
-            'REST_DAY_REGULAR_HOLIDAY',
-        ]
-    ),
+    overtime_type: z.enum([
+      "REGULAR_DAY",
+      "REST_DAY",
+      "SPECIAL_HOLIDAY",
+      "REGULAR_HOLIDAY",
+      "REST_DAY_SPECIAL_HOLIDAY",
+      "REST_DAY_REGULAR_HOLIDAY",
+    ]),
     overtime_hours_rendered: z.number().nullable(),
     overtime_night_differential: z.number(),
-    overtime_status: z.enum(['PENDING', 'ACCEPTED', 'REJECTED']),
-}).strip();
+    overtime_status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]),
+  })
+  .strip();
 
 // EmployeeAbsence Schema
-export const employeeAbsenceSchema = z.object({
+export const employeeAbsenceSchema = z
+  .object({
     // employee_absence_id: z.string(),
     // company_id: z.string(),
     employee_id: z.string(),
     absence_date: z.coerce.date(),
     absence_type: z.string(),
-    absence_status: z.enum(['PENDING', 'ACCEPTED', 'REJECTED']),
+    absence_status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]),
     is_paid: z.boolean(),
-}).strip();
+  })
+  .strip();
 
 // EmployeeLeave Schema
-export const employeeLeaveSchema = z.object({
+export const employeeLeaveSchema = z
+  .object({
     // employee_leave_id: z.string(),
     // company_id: z.string(),
     employee_id: z.string(),
     leave_date: z.coerce.date(),
     leave_type: z.string(),
-    leave_status: z.enum(['PENDING', 'ACCEPTED', 'REJECTED']),
+    leave_status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]),
     is_paid: z.boolean(),
-}).strip();
+  })
+  .strip();
 
 // EmployeeRestday Schema
-export const employeeRestdaySchema = z.object({
+export const employeeRestdaySchema = z
+  .object({
     // employee_restday_id: z.string(),
     // company_id: z.string(),
     employee_id: z.string(),
@@ -74,8 +81,9 @@ export const employeeRestdaySchema = z.object({
     undertime: z.number().nullable(),
     tardiness: z.number().nullable(),
     night_differential: z.number().nullable(),
-    shift_type: z.enum(['REGULAR', 'SLIDE']).default('REGULAR'),
-}).strip();
+    shift_type: z.enum(["REGULAR", "SLIDE"]).default("REGULAR"),
+  })
+  .strip();
 
 // Type definitions
 export type EmployeeAttendanceDto = z.infer<typeof employeeAttendanceSchema>;
