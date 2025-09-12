@@ -27,7 +27,7 @@ model EmployeeOvertime {
     employee_id                 String         @db.Char(36)
     overtime_date               DateTime       @db.Date
     overtime_type               OvertimeType
-    overtime_hours_rendered     Decimal        @db.Decimal(5, 2)
+    overtime_hours_rendered     Decimal?        @db.Decimal(5, 2)
     overtime_night_differential Decimal?       @db.Decimal(5, 2)
     overtime_status             OvertimeStatus
     created_at                  DateTime       @default(now()) @db.Timestamp(0)

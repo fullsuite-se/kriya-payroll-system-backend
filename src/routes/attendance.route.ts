@@ -7,6 +7,7 @@ import express from "express";
 const router = express.Router();
 
 
+// api/v1/daily-records/:company_id/attendances
 
 //base path: /api/v1/companies/:company_id/attendances
 /**
