@@ -31,7 +31,16 @@ export const companyInfoSchema = z.object({
 export const companyUpdateSchema = companySchema.omit({ company_id: true }).strip();
 export const companyInfoUpdateSchema = companyInfoSchema.omit({ company_id: true }).strip();
 
+export const companyHolidaySchema = z.object({
+    holiday_date: z.coerce.date(),
+    holiday_name: z.string(),
+    holiday_type: z.enum(['REGULAR', 'SPECIAL', 'CUSTOM']),
+    holiday_rate: z.number(),
+});
+
+
 export type CompanyDto = z.infer<typeof companySchema>;
 export type CompanyInfoDto = z.infer<typeof companyInfoSchema>;
 export type CompanyUpdateDto = z.infer<typeof companyUpdateSchema>;
 export type CompanyInfoUpdateDto = z.infer<typeof companyInfoUpdateSchema>;
+export type CompanyHolidayDto = z.infer<typeof companyHolidaySchema>;

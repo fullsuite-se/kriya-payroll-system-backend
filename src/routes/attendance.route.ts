@@ -3,11 +3,12 @@ import * as absenceController from "../controllers/absence.controller";
 import * as leaveController from "../controllers/leave.controller";
 import * as overtimeController from "../controllers/overtime.controller";
 import * as restdayController from "../controllers/restday.controller";
+import * as holidayController from "../controllers/holiday.controller";
+
 import express from "express";
 const router = express.Router();
 
 
-// api/v1/daily-records/:company_id/attendances
 
 //base path: /api/v1/companies/:company_id/attendances
 /**
@@ -51,5 +52,13 @@ router.get('/companies/:company_id/restdays', restdayController.getRestdays);
 router.post('/companies/:company_id/restdays', restdayController.addOneRestday); //add one only
 router.patch('/companies/:company_id/restdays/:employee_restday_id', restdayController.updateOneRestday);
 router.delete('/companies/:company_id/restdays/:employee_restday_id', restdayController.deleteOneRestday);
+
+
+//holidays
+//base path: /api/v1/daily-records/companies/:company_id/holidays
+router.get('/companies/:company_id/holidays', holidayController.getHolidays);
+router.post('/companies/:company_id/holidays', holidayController.addHoliday); //add one only
+router.patch('/companies/:company_id/holidays/:company_holiday_id', holidayController.updateHoliday);
+router.delete('/companies/:company_id/holidays/:company_holiday_id', holidayController.deleteHoliday);
 
 export default router;
