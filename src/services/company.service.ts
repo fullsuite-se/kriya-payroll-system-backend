@@ -42,6 +42,10 @@ export const findOneCompany = async (company_id: string) => {
 export const createOneCompany = async (companyData: CompanyDto, companyInfoData: CompanyInfoDto) => {
     const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
 
+    const existingComp = await findOneCompany(companyData.company_id);
+
+    if (existingComp) throw new Error("Record already existed");
+
     return await prisma.$transaction(async (tx) => {
         const company = await tx.company.create({
             data: {

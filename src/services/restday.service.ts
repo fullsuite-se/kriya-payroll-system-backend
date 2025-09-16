@@ -39,6 +39,15 @@ export const findAllRestdays = async (
 export const addRestday = async (company_id: string, employeeRestdayData: EmployeeRestdayDto) => {
     const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
 
+    const restday = await prisma.employeeRestday.findFirst({
+        where: {
+            employee_id: employeeRestdayData.employee_id,
+            restday_date: employeeRestdayData.restday_date,
+        }
+    });
+
+    if (restday) throw new Error("Record already existed");
+
     return await prisma.employeeRestday.create({
         data: {
             employee_restday_id: generateUUIV4(),

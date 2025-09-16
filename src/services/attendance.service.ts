@@ -45,6 +45,15 @@ export const addOneAttendance = async (
 ) => {
   const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
 
+  const attendance = await prisma.employeeAttendance.findFirst({
+    where: {
+      employee_id: employeeAttendanceData.employee_id,
+      attendance_date: employeeAttendanceData.attendance_date,
+    }
+  });
+
+  if (attendance) throw new Error("Record already existed");
+
   return await prisma.employeeAttendance.create({
     data: {
       employee_attendance_id: generateUUIV4(),

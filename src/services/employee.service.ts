@@ -77,11 +77,16 @@ export const findEmployeesByCompanyIdQuery = async (company_id: string, query: s
     });
 };
 
+
 export const addOneEmployee = async (
     company_id: string,
     employeeData: EmployeeDto, employeeInfoData: EmployeeInfoDto, employeeSalaryData: EmployeeSalaryDto) => {
 
     const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
+
+    const existingEmployee = await findEmployeebyEmployeeId(employeeData.employee_id);
+
+    if (existingEmployee) throw new Error("Record already existed");
 
     return await prisma.$transaction(async (tx) => {
         const employee = await tx.employee.create({

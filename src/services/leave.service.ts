@@ -45,6 +45,15 @@ export const addLeave = async (
 ) => {
   const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
 
+  const leave = await prisma.employeeLeave.findFirst({
+    where: {
+      employee_id: employeeLeaveData.employee_id,
+      leave_date: employeeLeaveData.leave_date,
+    }
+  });
+
+  if (leave) throw new Error("Record already existed");
+
   return await prisma.employeeLeave.create({
     data: {
       employee_leave_id: generateUUIV4(),

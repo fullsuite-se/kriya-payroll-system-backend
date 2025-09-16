@@ -40,6 +40,15 @@ export const findAllOvertimes = async (
 export const addOvertime = async (company_id: string, employeeOvertimeData: EmployeeOvertimeDto) => {
     const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
 
+    const overtime = await prisma.employeeOvertime.findFirst({
+        where: {
+            employee_id: employeeOvertimeData.employee_id,
+            overtime_date: employeeOvertimeData.overtime_date,
+        }
+    });
+
+    if (overtime) throw new Error("Record already existed");
+
     return await prisma.employeeOvertime.create({
         data: {
             employee_overtime_id: generateUUIV4(),

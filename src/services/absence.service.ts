@@ -45,6 +45,16 @@ export const addAbsence = async (
 ) => {
   const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
 
+
+  const absence = await prisma.employeeAbsence.findFirst({
+    where: {
+      employee_id: employeeAbsenceData.employee_id,
+      absence_date: employeeAbsenceData.absence_date,
+    }
+  });
+
+  if (absence) throw new Error("Record already existed");
+
   return await prisma.employeeAbsence.create({
     data: {
       employee_absence_id: generateUUIV4(),
