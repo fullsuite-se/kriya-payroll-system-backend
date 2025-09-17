@@ -21,13 +21,20 @@ export const findAllOvertimes = async (
 
     if (from && to) {
         where.overtime_date = {
-            gte: from,
-            lte: to,
+            gte: new Date(from),
+            lte: new Date(to),
         };
     } else if (from) {
-        // if only one date is passed, fetch attendance for that exact date
-        where.overtime_date = from;
+        where.overtime_date = {
+            gte: new Date(from),
+        };
     }
+    else if (to) {
+        where.overtime_date = {
+            lte: new Date(to),
+        };
+    }
+
 
     return prisma.employeeOvertime.findMany({
         where,

@@ -17,18 +17,25 @@ export const findAllAbsence = async (
     company_id,
   };
 
+
   if (employee_id) {
     where.employee_id = employee_id;
   }
 
   if (from && to) {
     where.absence_date = {
-      gte: from,
-      lte: to,
+      gte: new Date(from),
+      lte: new Date(to),
     };
   } else if (from) {
-    // if only one date is passed, fetch absence for that exact date
-    where.absence_date = from;
+    where.absence_date = {
+      gte: new Date(from),
+    };
+  }
+  else if (to) {
+    where.absence_date = {
+      lte: new Date(to),
+    };
   }
 
   return prisma.employeeAbsence.findMany({

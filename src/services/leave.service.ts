@@ -23,12 +23,18 @@ export const findAllLeave = async (
 
   if (from && to) {
     where.leave_date = {
-      gte: from,
-      lte: to,
+      gte: new Date(from),
+      lte: new Date(to),
     };
   } else if (from) {
-    // if only one date is passed, fetch leave for that exact date
-    where.leave_date = from;
+    where.leave_date = {
+      gte: new Date(from),
+    };
+  }
+  else if (to) {
+    where.leave_date = {
+      lte: new Date(to),
+    };
   }
 
   return prisma.employeeLeave.findMany({

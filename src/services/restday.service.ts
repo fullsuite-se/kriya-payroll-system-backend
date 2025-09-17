@@ -2,7 +2,7 @@ import prisma from "../config/prisma";
 import { EmployeeRestday, Prisma } from "@prisma/client";
 import { getCreatedUpdatedIsoUtcNow, getIsoUTCNow } from "../utils/date.utility";
 import { generateUUIV4 } from "../utils/ids.utility";
-import { EmployeeOvertimeDto, EmployeeRestdayDto } from "../dtos/attendance.dto";
+import { EmployeeRestdayDto } from "../dtos/attendance.dto";
 
 export const findAllRestdays = async (
     company_id: string,
@@ -20,12 +20,18 @@ export const findAllRestdays = async (
 
     if (from && to) {
         where.restday_date = {
-            gte: from,
-            lte: to,
+            gte: new Date(from),
+            lte: new Date(to),
         };
     } else if (from) {
-        // if only one date is passed, fetch attendance for that exact date
-        where.restday_date = from;
+        where.restday_date = {
+            gte: new Date(from),
+        };
+    }
+    else if (to) {
+        where.restday_date = {
+            lte: new Date(to),
+        };
     }
 
     return prisma.employeeRestday.findMany({
