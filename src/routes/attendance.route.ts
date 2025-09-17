@@ -60,5 +60,6 @@ router.get('/companies/:company_id/holidays', holidayController.getHolidays);
 router.post('/companies/:company_id/holidays', holidayController.addHoliday); //add one only
 router.patch('/companies/:company_id/holidays/:company_holiday_id', holidayController.updateHoliday);
 router.delete('/companies/:company_id/holidays/:company_holiday_id', holidayController.deleteHoliday);
-
+//fetch employees attended during holiday
+router.get('/companies/:company_id/holidays/employee-attendances', holidayController.getEmployeesAttendanceOnHoliday); //date is after ?
 export default router;

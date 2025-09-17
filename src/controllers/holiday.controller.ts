@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import { getErrorMessage } from "../utils/errors.utility";
-import { addOneHoliday, deleteOneHoliday, findHolidays, updateOneHoliday } from "../services/holiday.service";
+import { addOneHoliday, deleteOneHoliday, findHolidays, getEmployeesAttendnaceOnHoliday, updateOneHoliday } from "../services/holiday.service";
 import { companyHolidaySchema } from "../dtos/company.dto";
 
 interface QueryParams {
     from?: Date;
     to?: Date;
+    date?: Date;
 }
+
 
 interface RouteParams {
     company_id?: string;
@@ -117,4 +119,28 @@ export const deleteHoliday = async (req: Request, res: Response) => {
             error: getErrorMessage(error),
         });
     };
+};
+
+
+export const getEmployeesAttendanceOnHoliday = async (req: Request, res: Response) => {
+    const { company_id } = req.params as RouteParams;
+    const date = req.query.date as string;
+
+    if (!company_id || !date)
+        return res
+            .status(400)
+            .json({
+                message: "Failed to fetch holiday",
+                error: "Missing company_id/date",
+            });
+
+    try {
+        const attendances = await getEmployeesAttendnaceOnHoliday(company_id, date);
+        return res.status(200).json({ message: "Successfully fetched employees on holidays", attendances });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to fetch employees on holiday",
+            error: getErrorMessage(error),
+        });
+    }
 };

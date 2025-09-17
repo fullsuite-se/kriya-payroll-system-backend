@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../config/prisma";
 import { CompanyHolidayDto } from "../dtos/company.dto";
-import { getCreatedUpdatedIsoUtcNow, getIsoUTCNow } from "../utils/date.utility";
+import { convertToISO8601, getCreatedUpdatedIsoUtcNow, getIsoUTCNow } from "../utils/date.utility";
 import { generateUUIV4 } from "../utils/ids.utility";
 
 export const findHolidays = async (
@@ -68,4 +68,39 @@ export const deleteOneHoliday = async (
     return await prisma.companyHoliday.delete({
         where: { company_holiday_id }
     });
+};
+
+
+
+// export const getEmployeesAttendnaceOnHoliday = async (
+//     company_id: string,
+//     date: string,
+// ) => {
+
+//     //to YY-MM-DD string
+//     const attendance_date = convertToISO8601(date);
+
+//     if (!attendance_date) throw new Error("Error occured");
+
+//     return await prisma.employeeAttendance.findMany({
+//         where: {
+//             company_id,
+//             attendance_date
+//         },
+//         orderBy: {
+//             attendance_date: "asc",
+//         }
+//     });
+// };
+
+export const getEmployeesAttendnaceOnHoliday = async (
+    company_id: string,
+    date: string,
+) => {
+    return await prisma.$queryRaw`
+        SELECT * FROM "employee_attendances" 
+        WHERE "company_id" = ${company_id} 
+        AND DATE("attendance_date") = ${date}
+        ORDER BY "attendance_date" ASC
+    `;
 };
