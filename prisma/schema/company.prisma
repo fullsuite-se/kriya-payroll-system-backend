@@ -21,7 +21,6 @@ model Company {
     company_monthly_working_days        CompanyMonthlyWorkingDay?
     company_monthly_payroll_frequencies CompanyMonthlyPayrollFrequency?
     employee_leaves                     EmployeeLeave[]
-    payitems                            Payitem[]
     payslip_drafts                      PayslipDraft[]
     payslips                            Payslip[]
     payruns                             Payrun[]

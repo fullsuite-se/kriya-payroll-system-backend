@@ -10,8 +10,6 @@ model Payitem {
     payslip_payable_drafts PayslipPayableDraft[]
     payslip_payables       PayslipPayable[]
     recurring_pays         RecurringPay[]
-    Company                Company?              @relation(fields: [companyCompany_id], references: [company_id])
-    companyCompany_id      String?               @db.Char(36)
 
     @@map("payitems")
 }
