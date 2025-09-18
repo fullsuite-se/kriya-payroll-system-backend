@@ -52,6 +52,7 @@ enum LeaveStatus {
     REJECTED
 }
 
+//This supports grouping in the payslip
 enum PayitemCategory {
     DEDUCTIONS
     EARNINGS
@@ -64,20 +65,16 @@ enum PayitemType {
     CALCULATED
 }
 
+//This supports data export in export feature
+//The group indicates what to query for each table
 enum PayitemGroup {
-    Taxable
-    NonTaxable
-    PreTaxDeduction
-    Taxes
-    PostTaxDeduction
-    PostTaxAddition
-    InfoOnly
-}
-
-enum Payitem1601cTag {
+    TAXES
     TAXABLE
     NON_TAXABLE
-    EXEMPT
+    PRE_TAX_DEDUCTION
+    POS_TAX_DEDUCTION
+    PRE_TAX_ADDITION
+    INFO_ONLY
 }
 
 enum PayslipStatus {
