@@ -4,6 +4,8 @@ import * as leaveController from "../controllers/leave.controller";
 import * as overtimeController from "../controllers/overtime.controller";
 import * as restdayController from "../controllers/restday.controller";
 import * as holidayController from "../controllers/holiday.controller";
+import * as validateDailyRecordController from "../controllers/validate-daily-record.controller";
+
 
 import express from "express";
 const router = express.Router();
@@ -62,4 +64,13 @@ router.patch('/companies/:company_id/holidays/:company_holiday_id', holidayContr
 router.delete('/companies/:company_id/holidays/:company_holiday_id', holidayController.deleteHoliday);
 //fetch employees attended during holiday
 router.get('/companies/:company_id/holidays/employee-attendances', holidayController.getEmployeesAttendanceOnHoliday); //date is after ?
+
+//this endpoint validates if the record for a given employee
+// is complete for the period of a payrun (from - to date)
+//query param: 
+// ?from=
+// ?to=
+router.get('/validate/:employee_id', validateDailyRecordController.validateDailyRecordOfOneEmployee);
+
+
 export default router;
