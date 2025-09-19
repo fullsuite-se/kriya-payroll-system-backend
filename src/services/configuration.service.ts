@@ -14,6 +14,20 @@ export const addPayrollFrequencyService = async (company_id: string, frequency: 
     });
 };
 
+export const findOnePayrollFrequency = async (company_id: string) => {
+    return await prisma.companyMonthlyPayrollFrequency.findFirst({
+        where: { company_id }
+    });
+};
+
+export const findOnePayrollWorkingDays = async (company_id: string) => {
+    return await prisma.companyMonthlyWorkingDay.findFirst({
+        where: { company_id }
+    });
+};
+
+
+
 export const addWorkingDaysService = async (company_id: string, number_of_days: number) => {
     const { created_at, updated_at } = getCreatedUpdatedIsoUtcNow();
 

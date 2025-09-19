@@ -18,6 +18,10 @@ router.patch("/:company_id/info", companyController.updateCompanyInfo);
 //configuration
 router.post("/:company_id/configuration/working-days", configurationController.addWorkingDays);
 router.post("/:company_id/configuration/payroll-frequency", configurationController.addPayrollFrequency);
+//fetching configuration
+router.get("/:company_id/configuration/working-days", configurationController.getWorkingDays);
+router.get("/:company_id/configuration/payroll-frequency", configurationController.getPayrollFrequency);
+
 
 router.post("/:company_id/access", managementController.addUserToManage); //add users to manage the company
 // router.get("/access/:user_id", managementController.getCompaniesUserHasAccess); //fetch company a user has access
