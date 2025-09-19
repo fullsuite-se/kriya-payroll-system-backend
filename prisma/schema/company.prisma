@@ -25,6 +25,7 @@ model Company {
     payslips                            Payslip[]
     payruns                             Payrun[]
     company_holidays                    CompanyHoliday[]
+    RecurringPay                        RecurringPay[]
 
     @@map("companies")
 }
