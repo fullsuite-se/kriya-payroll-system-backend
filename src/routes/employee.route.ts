@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import * as employeeController from "../controllers/employee.controller";
+import * as recurringPayController from "../controllers/recurring-pay.controller";
 
 /**
  * ?company_id
@@ -17,5 +18,10 @@ router.patch('/:employee_id/info', employeeController.updateEmployeeInfo);
 router.post('/:employee_id/companies/:company_id/salaries', employeeController.addEmployeeSalary);
 router.patch('/:employee_id/companies/:company_id/employment-status', employeeController.updateEmploymentStatus);
 
+//recurring pay
+router.get('/companies/:company_id/recurring-pays', recurringPayController.getMany);
+router.post('/companies/:company_id/recurring-pays', recurringPayController.addOne);
+router.patch('/recurring-pays/:recurring_pay_id', recurringPayController.updateOne);
+router.delete('/recurring-pays/:recurring_pay_id', recurringPayController.deleteOne);
 
 export default router;
